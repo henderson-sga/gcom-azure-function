@@ -16,7 +16,7 @@ namespace My.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             [CosmosDB(databaseName: "my-database", collectionName: "my-container",
-                ConnectionStringSetting = "CosmosDbConnectionString"
+                ConnectionStringSetting = "mongodb://cosmosdbhender:AeWl97eZqqpoam60wRmqXxgxpSbph7K6aEWjZCTGGFF4c8BfyStj69p4tP5rVDI3kNMaB6oDiO1CsWWRAablyw==@cosmosdbhender.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmosdbhender@"
                 )]IAsyncCollector<dynamic> documentsOut,
             ILogger log)
         {
@@ -34,14 +34,14 @@ namespace My.Functions
                 await documentsOut.AddAsync(new
                 {
                     // create a random ID
-                    id = System.Guid.NewGuid().ToString(),
+                    _id = System.Guid.NewGuid().ToString(),
                     name = name
                 });
             }
 
             string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+                ? "empty name query"
+                : name;
 
             return new OkObjectResult(responseMessage);
         }
